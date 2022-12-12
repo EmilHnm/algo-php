@@ -2,7 +2,7 @@
 
 namespace algo;
 
-class Question
+class Question implements \JsonSerializable
 {
     public $index;
     public $title;
@@ -15,5 +15,15 @@ class Question
         $this->title = $title;
         $this->content = $content;
         $this->answers = $answers;
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            'index' => $this->index,
+            'title' => $this->title,
+            'content' => $this->content,
+            'answers' => $this->answers,
+        ];
     }
 }
