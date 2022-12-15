@@ -23,6 +23,8 @@ $list = $questionList->sortBy(function ($a, $b) {
     return $a->index < $b->index ? 1 : -1;
 })->filter(function($item) {
     return $item->index % 2 === 0;
+})->map(function($item) {
+    return "Question {$item->index}: {$item->title}";
 })->all();
 
 echo '<pre>';

@@ -21,7 +21,7 @@ class QuestionList implements Collection
             [$question, $answer] = explode('####', $questions);
             try {
                 [$title, $content] = explode('?', "$question");
-                [$index, $title] = explode('.', "$title");
+                [$index, $title] = explode('.', "$title", 2);
             } catch (\Throwable $th) {
                 [$index, $title, $content] = explode('.', $question);
             }
@@ -40,27 +40,29 @@ class QuestionList implements Collection
         self::$questions[] = $question;
         return $this->questions;
     }
-    public function all()
+    public function all(): array
     {
         return self::$questions;
     }
-    public function first()
+    public function first(): Question | NULL
     {
         return self::$questions[0] ?? NULL;
     }
-    public function last()
+    public function last(): Question | NULL
     {
-        return self::$questions[count($this->questions) - 1] ?? NULL;
+        return self::$questions[count(self::$questions) - 1] ?? NULL;
     }
-    public function map($callback)
+    public function map($callback): QuestionList
     {
-        return array_map($callback, $this->questions);
+        self::$questions = array_map($callback, self::$questions);
+        return $this;
     }
-    public function filter($callback)
+    public function filter($callback):QuestionList
     {
-        return new static(array_filter(self::$questions, $callback));
+        self::$questions = array_filter(self::$questions, $callback);
+        return $this;
     }
-    public function pluck($key = "index")
+    public function pluck($key = "index"):array
     {
         $tempArray = [];
         foreach (self::$questions as $question) {
@@ -68,14 +70,14 @@ class QuestionList implements Collection
         }
         return $tempArray;
     }
-    public function push(Question $question)
+    public function push(Question $question):void
     {
         array_push(self::$questions, $question);
     }
 
-    public function sortBy($callback)
+    public function sortBy($callback): QuestionList
     {
         usort(self::$questions, $callback);
-        return new static(self::$questions);
+        return $this;
     }
 }
