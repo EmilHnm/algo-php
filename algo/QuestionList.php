@@ -30,7 +30,7 @@ class QuestionList implements Collection
         return new static(self::$questions);
     }
 
-    public function saveJson($path)
+    public function saveJson($path): int
     {
         $json = json_encode($this->all(), JSON_UNESCAPED_UNICODE);
         return file_put_contents($path, $json) ? 1 : 0;
