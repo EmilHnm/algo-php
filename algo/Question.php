@@ -1,15 +1,15 @@
 <?php
 
-namespace algo;
+namespace Hoangm\Algo;
 
 class Question implements \JsonSerializable
 {
-    public $index;
-    public $title;
-    public $content;
-    public $answers;
+    public int $index;
+    public string $title;
+    public string $content;
+    public string $answers;
 
-    public function __construct($index, $title, $content, $answers)
+    public function __construct(int $index, string $title, string $content, string $answers)
     {
         $this->index = $index;
         $this->title = $title;
@@ -17,7 +17,7 @@ class Question implements \JsonSerializable
         $this->answers = $answers;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return [
             'index' => $this->index,
